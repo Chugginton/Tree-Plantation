@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --pixel-size: 24px;
+  }
+
+  body {
+    background-color: #060b08;
+    color: #d1f4e2;
+    overflow-x: hidden;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #060b08;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #172b1f;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #10b981;
+  }
+}
+
+/* Background Grain Noise Canvas */
+.noise-bg {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* Pixel Grid Corner Crosses (Run Rob Run inspired) */
+.pixel-cross {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  pointer-events: none;
+  z-index: 40;
+}
+.pixel-cross::before,
+.pixel-cross::after {
+  content: '';
+  position: absolute;
+  background: rgba(16, 185, 129, 0.4);
+}
+.pixel-cross::before {
+  top: 5px;
+  left: 0;
+  width: 11px;
+  height: 1px;
+}
+.pixel-cross::after {
+  top: 0;
+  left: 5px;
+  width: 1px;
+  height: 11px;
+}
+
+/* Kinetic Scrolling Marquee Text */
+.marquee-track {
+  display: flex;
+  width: max-content;
+}
+
+/* Glassmorphism Card */
+.glass-card {
+  background: rgba(17, 30, 22, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.glass-card:hover {
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.12);
+}
+
+/* Glow Border Button */
+.glow-button {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glow-button::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(135deg, #10b981, #34d399, #059669);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.glow-button:hover::after {
+  opacity: 1;
+}
+
+/* Pixel Curtain Overlay Animation */
+.pixel-grid-curtain {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  pointer-events: none;
+}
+.pixel-cell {
+  background-color: #0a120d;
+  border: 1px solid rgba(16, 185, 129, 0.05);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
