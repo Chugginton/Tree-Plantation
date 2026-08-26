@@ -1,6 +1,8 @@
-# 🌲 ARBORIA — Tree Plantation Network & Climate Ecosystem Engine
+# 🌲 ARBORIA — Pure HTML, CSS & JavaScript Tree Plantation Web Application
 
-**Arboria** is a high-craft, interactive eco-brutalist web application designed to accelerate global reforestation and community-driven tree planting. Taking visual design, kinetic typography, and motion cues from creative portfolios like [Run Rob Run](https://www.runrobrun.com/), Arboria combines artistic frontend motion with real-time carbon tracking, species exploration, and automated form processing.
+**Arboria** is a high-craft, interactive eco-brutalist web application built entirely using **Pure HTML5, CSS3, and Vanilla JavaScript** with zero build tools or npm dependencies required! 
+
+Taking visual design, kinetic typography, and motion cues from creative portfolios like [Run Rob Run](https://www.runrobrun.com/), Arboria combines artistic frontend motion with real-time carbon tracking, 3D species exploration, event management, and automated form processing.
 
 ---
 
@@ -31,79 +33,39 @@
 ### 📅 4. Reforestation Events & Drives
 - **Filterable Drives**: Filter events by status (`Live Now`, `Upcoming`, `Completed`).
 - **Target Progress Indicators**: Visual progress bars showing target saplings vs. planted saplings per drive.
-- **Event Registration**: Instant registration modal connected to Formspree and local Express API.
+- **Event Registration**: Instant registration modal connected to Formspree.
 
 ---
 
-### ✉️ 5. Formspree Contact & Plant-A-Tree Backend Integration
+### ✉️ 5. Formspree Contact & Plant-A-Tree Integration
 - **Formspree Endpoint**: Fully integrated with `https://formspree.io/f/xeajbqdd` for instant contact form submissions and tree adoption registrations.
-- **Express API Server (`server/index.js`)**: Node.js Express server managing persistent tree count data (`server/data.json`) via `/api/stats` and `/api/plant` endpoints.
 - **Interactive FAQ Accordion**: Expandable answers to common questions about tree survival tracking, corporate CSR drives, and native species selection.
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## 🚀 Instant GitHub Pages Deployment
 
-- **Frontend**: React 18, TypeScript, Vite
-- **Styling**: Tailwind CSS, Custom Pixel CSS, Glassmorphism Filters
-- **Icons**: Lucide React
-- **Backend API**: Node.js, Express, CORS
-- **Form Service**: Formspree (`https://formspree.io/f/xeajbqdd`)
+Since this project uses **Pure HTML, CSS, and Vanilla JavaScript**, it requires **ZERO build step** and works instantly on GitHub Pages!
 
----
-
-## 🚀 Quick Start Guide
-
-### 1. Installation
-```bash
-cd C:\Users\Keval\Desktop\VSCode_Restored_Projects\Users\Keval\.vscode\SIDE-PROJECTS\tree-plantation
-npm install
-```
-
-### 2. Launch Development Server
-```bash
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### 3. Launch Local Express API Server (Optional)
-```bash
-npm run server
-```
-Runs API server on [http://localhost:5000](http://localhost:5000).
+1. Push code to your repository:
+   ```bash
+   git add .
+   git commit -m "Convert to Pure HTML, CSS, and Vanilla JS"
+   git push origin main
+   ```
+2. Go to **Settings > Pages** on your GitHub repository.
+3. Select `main` branch and click **Save**.
+4. Your website will be live at: `https://chugginton.github.io/Tree-Plantation/`!
 
 ---
 
-## 📂 Project Structure
+## 📂 File Structure
 
 ```
 tree-plantation/
 ├── README.md
-├── index.html
-├── package.json
-├── vite.config.ts
-├── tailwind.config.js
-├── postcss.config.js
-├── server/
-│   ├── index.js             # Express API backend server
-│   └── data.json            # Local JSON storage for trees & stats
-└── src/
-    ├── main.tsx
-    ├── App.tsx
-    ├── index.css            # Custom animations, pixel grid, noise texture
-    ├── data/
-    │   ├── treeSpecies.ts   # Tree species dataset with metrics & images
-    │   └── events.ts        # Reforestation drives dataset
-    └── components/
-        ├── CursorOrb.tsx    # Custom glowing cursor
-        ├── PixelTransition.tsx # Pixel grid curtain transition
-        ├── AudioPlayer.tsx  # Ambient nature sound player
-        ├── Navbar.tsx       # Topbar with live count badge & mobile menu
-        ├── HeroSection.tsx  # Kinetic hero title & sound control
-        ├── ImpactStats.tsx  # Counter cards & live activity stream
-        ├── TreeCarousel.tsx # 3D tree species card carousel
-        ├── EventsSection.tsx# Filterable plantation drives
-        ├── PlantModal.tsx   # Sapling adoption modal (Express + Formspree)
-        ├── ContactSection.tsx # Formspree contact form & FAQ accordion
-        └── Footer.tsx       # Eco footer & server status indicator
+├── index.html               # Semantic HTML5 Structure
+├── style.css                # Eco-Brutalist CSS Styles & Animations
+├── script.js                # Pure Vanilla JavaScript Application Logic
+└── media/                   # 3D Preview images (3:2 Ratio)
 ```

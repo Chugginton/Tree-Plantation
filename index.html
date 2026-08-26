@@ -1,16 +1,655 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ARBORIA | Plant A Seed, Grow A Forest</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-forest-950 text-emerald-100 antialiased selection:bg-emerald-500 selection:text-forest-950 min-h-screen overflow-x-hidden font-body cursor-default">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARBORIA | Plant A Seed, Grow A Forest</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+  
+  <!-- Google Fonts: Syne, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-forest-950 text-emerald-100 antialiased font-body min-h-screen noise-bg">
+
+  <!-- Pixel Grid Curtain Transition (RunRobRun Style) -->
+  <div id="pixel-transition" class="pixel-transition-overlay"></div>
+
+  <!-- Glowing Custom Cursor Orb -->
+  <div id="cursor-orb" class="cursor-orb hidden md:block">
+    <div class="cursor-ring"></div>
+    <div class="cursor-dot"></div>
+  </div>
+
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="pixel-cross top-2 left-4"></div>
+    <div class="pixel-cross top-2 right-4"></div>
+
+    <div class="nav-container">
+      <!-- Brand Logo -->
+      <a href="#" class="brand-logo">
+        <div class="logo-icon">
+          <i data-lucide="trees"></i>
+        </div>
+        <div>
+          <span class="brand-title">ARBORIA</span>
+          <span class="brand-subtitle">Tree Canopy Network</span>
+        </div>
+      </a>
+
+      <!-- Live Tree Counter Badge -->
+      <div class="live-counter-badge hidden md:flex">
+        <span class="live-pulse">
+          <span class="ping"></span>
+          <span class="dot"></span>
+        </span>
+        <span id="nav-tree-count" class="count-number">142,850</span>
+        <span class="count-label">Trees Planted</span>
+      </div>
+
+      <!-- Nav Links -->
+      <nav class="nav-links hidden md:flex">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#canopy" class="nav-link">Canopy Carousel</a>
+        <a href="#events" class="nav-link">Events</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <!-- Action CTA -->
+      <div class="hidden sm:flex items-center gap-4">
+        <button class="btn-primary" onclick="openPlantModal()">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          <span>Plant A Tree</span>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <button id="mobile-menu-btn" class="mobile-toggle md:hidden" aria-label="Toggle menu">
+        <i data-lucide="menu" id="menu-icon"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" class="mobile-drawer hidden">
+      <a href="#about" onclick="toggleMobileMenu()">01. About</a>
+      <a href="#canopy" onclick="toggleMobileMenu()">02. Canopy Carousel</a>
+      <a href="#events" onclick="toggleMobileMenu()">03. Reforestation Events</a>
+      <a href="#contact" onclick="toggleMobileMenu()">04. Contact Us</a>
+      <button class="btn-primary w-full mt-2" onclick="toggleMobileMenu(); openPlantModal();">
+        <i data-lucide="sparkles" class="w-4 h-4"></i>
+        <span>Plant A Tree Now</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Kinetic Hero Section -->
+    <section class="hero-section">
+      <div class="hero-radial-glow"></div>
+      <div class="hero-grid-overlay"></div>
+
+      <div class="hero-container">
+        <!-- Top Meta Row & Ambient Sound Player -->
+        <div class="hero-top-row">
+          <div class="hero-tag">
+            <span class="tag-ping"></span>
+            <span class="tag-text">Global Reforestation Initiative 2026</span>
+          </div>
+
+          <!-- Ambient Nature Sound Player (RunRobRun Style) -->
+          <div class="audio-player">
+            <div class="equalizer-waves">
+              <span class="eq-bar bar-1"></span>
+              <span class="eq-bar bar-2"></span>
+              <span class="eq-bar bar-3"></span>
+            </div>
+            <button id="audio-play-btn" class="audio-play-btn" onclick="toggleAudio()">
+              <i data-lucide="disc" id="audio-disc-icon" class="w-4 h-4 text-emerald-400"></i>
+              <span id="current-track-title" class="track-title">Canopy Rainfall & Wind</span>
+            </button>
+            <button id="audio-dropdown-btn" class="audio-dropdown-btn" onclick="togglePlaylistMenu()">
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+            </button>
+
+            <!-- Soundscape Dropdown -->
+            <div id="playlist-menu" class="playlist-menu hidden">
+              <p class="playlist-header">Eco Audio Soundscapes</p>
+              <button class="playlist-item active" onclick="selectTrack(0)">
+                <span>Canopy Rainfall & Wind</span>
+                <span class="duration">Ambient</span>
+              </button>
+              <button class="playlist-item" onclick="selectTrack(1)">
+                <span>Morning Bird Sanctuary</span>
+                <span class="duration">Nature</span>
+              </button>
+              <button class="playlist-item" onclick="selectTrack(2)">
+                <span>Deep Forest Stream Flow</span>
+                <span class="duration">Relaxing</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kinetic Main Hero Title -->
+        <div class="hero-content">
+          <div class="badge-subhead">
+            <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+            <span>Interactive Eco-Canopy Engine</span>
+          </div>
+
+          <h1 class="hero-title">
+            PLANT A SEED. <br>
+            <span class="gradient-text">GROW A FOREST.</span>
+          </h1>
+
+          <div class="hero-action-grid">
+            <p class="hero-description">
+              Arboria combines community-driven tree planting with real-time satellite carbon monitoring. 
+              Adopting a native tree sapling shields vulnerable biomes, purifies local air basins, and accelerates planetary climate restoration.
+            </p>
+            <div class="hero-buttons">
+              <button class="btn-primary" onclick="openPlantModal()">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <span>Plant A Tree Today</span>
+              </button>
+              <a href="#canopy" class="btn-secondary">
+                <span>Explore Species</span>
+                <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Infinite Scrolling Ticker -->
+      <div class="ticker-bar">
+        <div class="marquee-track">
+          <span>🌱 142,850+ Saplings Planted</span>
+          <span>•</span>
+          <span>🌍 3,570+ Tons CO₂ Absorbed</span>
+          <span>•</span>
+          <span>🌳 420+ Hectares Reforested</span>
+          <span>•</span>
+          <span>🤝 8,940 Active Earth Guardians</span>
+          <span>•</span>
+          <span>🌱 142,850+ Saplings Planted</span>
+          <span>•</span>
+          <span>🌍 3,570+ Tons CO₂ Absorbed</span>
+          <span>•</span>
+          <span>🌳 420+ Hectares Reforested</span>
+          <span>•</span>
+          <span>🤝 8,940 Active Earth Guardians</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact Statistics Section -->
+    <section id="about" class="about-section">
+      <div class="section-container">
+        <div class="mission-grid">
+          <div>
+            <span class="section-tag">01 // Architectural Mission & Science</span>
+            <h2 class="section-heading">MEASURABLE CLIMATE ACTION THROUGH DECENTRALIZED REFORESTATION.</h2>
+          </div>
+          <div>
+            <p class="section-body">
+              We leverage satellite remote sensing, geo-tagged sapling tracking, and indigenous seed bank preservation to ensure 
+              a 90%+ sapling survival rate across deforested river basins, degraded farmlands, and urban heat islands.
+            </p>
+          </div>
+        </div>
+
+        <!-- Metrics Cards Grid -->
+        <div class="metrics-grid">
+          <div class="glass-card metric-card">
+            <div class="metric-icon"><i data-lucide="trees"></i></div>
+            <p id="hero-planted-count" class="metric-number">142,850</p>
+            <p class="metric-label">Total Saplings Planted</p>
+            <p class="metric-sub">Verified via satellite GPS tags</p>
+          </div>
+
+          <div class="glass-card metric-card">
+            <div class="metric-icon"><i data-lucide="globe"></i></div>
+            <p id="hero-co2-count" class="metric-number">3,571 Tons</p>
+            <p class="metric-label">Est. CO₂ Sequestration</p>
+            <p class="metric-sub">Calculated over 25-year lifecycle</p>
+          </div>
+
+          <div class="glass-card metric-card">
+            <div class="metric-icon"><i data-lucide="shield"></i></div>
+            <p class="metric-number">420 Hectares</p>
+            <p class="metric-label">Land Area Canopy</p>
+            <p class="metric-sub">Restored degraded ecosystems</p>
+          </div>
+
+          <div class="glass-card metric-card">
+            <div class="metric-icon"><i data-lucide="users"></i></div>
+            <p class="metric-number">8,940</p>
+            <p class="metric-label">Earth Guardians</p>
+            <p class="metric-sub">Volunteers & active partners</p>
+          </div>
+        </div>
+
+        <!-- Live Activity Stream -->
+        <div class="activity-stream-card">
+          <div class="stream-header">
+            <i data-lucide="activity" class="w-4 h-4 text-emerald-400 animate-pulse"></i>
+            <span>Live Community Planting Stream</span>
+          </div>
+          <div id="activity-list" class="activity-grid">
+            <div class="activity-item">
+              <div class="activity-top">
+                <span class="activity-name">Sarah M.</span>
+                <span class="activity-time">2 mins ago</span>
+              </div>
+              <p class="activity-tree">Planted Giant Redwood</p>
+              <p class="activity-loc">Location: Pacific Coast</p>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-top">
+                <span class="activity-name">Liam K.</span>
+                <span class="activity-time">12 mins ago</span>
+              </div>
+              <p class="activity-tree">Planted Sacred Banyan</p>
+              <p class="activity-loc">Location: Western Ghats</p>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-top">
+                <span class="activity-name">Elena R.</span>
+                <span class="activity-time">25 mins ago</span>
+              </div>
+              <p class="activity-tree">Planted English Oak</p>
+              <p class="activity-loc">Location: Bavarian Reserve</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3D Canopy Species Carousel -->
+    <section id="canopy" class="carousel-section">
+      <div class="pixel-cross top-4 left-4"></div>
+      <div class="pixel-cross top-4 right-4"></div>
+
+      <div class="section-container">
+        <div class="carousel-header">
+          <div>
+            <span class="section-tag"><i data-lucide="leaf" class="w-3.5 h-3.5 inline"></i> Interactive Canopy Species Explorer</span>
+            <h2 class="section-heading">CANOPY CAROUSEL.</h2>
+          </div>
+
+          <div class="carousel-nav-btns">
+            <button class="carousel-arrow" onclick="prevTree()" aria-label="Previous Species">
+              <i data-lucide="chevron-left"></i>
+            </button>
+            <span id="carousel-counter" class="carousel-counter">01 / 06</span>
+            <button class="carousel-arrow" onclick="nextTree()" aria-label="Next Species">
+              <i data-lucide="chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Active Tree Showcase Spotlight -->
+        <div class="glass-card spotlight-card">
+          <div class="spotlight-image-wrap">
+            <img id="tree-img" src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=800&q=80" alt="English Oak">
+            <div class="spotlight-badge" id="tree-badge">High Carbon Sink</div>
+            <div class="spotlight-tag">
+              <p id="tree-scientific" class="scientific-name">Quercus robur</p>
+              <p id="tree-category" class="category-name">Deciduous Monarch</p>
+            </div>
+          </div>
+
+          <div class="spotlight-details">
+            <div>
+              <h3 id="tree-name" class="tree-title">English Oak</h3>
+              <p id="tree-desc" class="tree-desc">
+                The ancient backbone of temperate forests. Supports over 2,300 species of flora, fauna, and fungi.
+              </p>
+            </div>
+
+            <div class="tree-metrics-grid">
+              <div class="metric-box">
+                <span class="box-label"><i data-lucide="wind" class="w-3.5 h-3.5"></i> CO₂ Offset</span>
+                <span id="tree-co2" class="box-val">22.6 kg/yr</span>
+              </div>
+              <div class="metric-box">
+                <span class="box-label"><i data-lucide="clock" class="w-3.5 h-3.5"></i> Lifespan</span>
+                <span id="tree-lifespan" class="box-val">500+ Years</span>
+              </div>
+              <div class="metric-box">
+                <span class="box-label"><i data-lucide="shield" class="w-3.5 h-3.5"></i> Survival Rate</span>
+                <span id="tree-survival" class="box-val text-emerald-300">94%</span>
+              </div>
+              <div class="metric-box">
+                <span class="box-label"><i data-lucide="trees" class="w-3.5 h-3.5"></i> Max Height</span>
+                <span id="tree-height" class="box-val">40 Meters</span>
+              </div>
+            </div>
+
+            <div class="eco-benefit-box">
+              <span class="benefit-title">ECOLOGICAL IMPACT:</span>
+              <span id="tree-eco">High biodiversity shelter & soil erosion prevention.</span>
+            </div>
+
+            <button class="btn-primary w-full py-4" onclick="plantCurrentTree()">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              <span id="plant-btn-text">Plant English Oak Sapling</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Thumbnails Ribbon -->
+        <div id="thumbnail-ribbon" class="thumbnail-grid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Reforestation Events Section -->
+    <section id="events" class="events-section">
+      <div class="section-container">
+        <div class="events-header">
+          <div>
+            <span class="section-tag">02 // On-The-Ground Plantation Drives</span>
+            <h2 class="section-heading">REFORESTATION EVENTS.</h2>
+          </div>
+
+          <div class="filter-pills">
+            <button class="filter-btn active" onclick="filterEvents('All')">All</button>
+            <button class="filter-btn" onclick="filterEvents('Live Now')">Live Now</button>
+            <button class="filter-btn" onclick="filterEvents('Upcoming')">Upcoming</button>
+            <button class="filter-btn" onclick="filterEvents('Completed')">Completed</button>
+          </div>
+        </div>
+
+        <!-- Events Grid -->
+        <div id="events-grid" class="events-grid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Formspree Contact Section -->
+    <section id="contact" class="contact-section">
+      <div class="section-container">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="section-tag">03 // Get In Touch & Partner With Us</span>
+          <h2 class="section-heading">CONNECT WITH ARBORIA.</h2>
+          <p class="section-sub text-emerald-100/70">
+            Have questions about hosting a tree plantation drive, corporate partnerships, or volunteering? 
+            Send us a message below.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Contact Info & FAQs -->
+          <div class="space-y-8">
+            <div class="glass-card p-8 rounded-3xl space-y-6">
+              <h3 class="font-display font-bold text-xl text-white">Canopy Operations HQ</h3>
+
+              <div class="space-y-4 text-sm font-mono text-emerald-100/80">
+                <div class="flex items-start gap-3">
+                  <i data-lucide="map-pin" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                  <div>
+                    <span class="text-white font-bold block">Headquarters:</span>
+                    <span>Arboria Earth Tower, 45 Canopy Way, Green Belt Reserve</span>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                  <i data-lucide="mail" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                  <div>
+                    <span class="text-white font-bold block">Direct Email:</span>
+                    <a href="mailto:hello@arboria-trees.org" class="hover:text-emerald-300">hello@arboria-trees.org</a>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3">
+                  <i data-lucide="phone" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                  <div>
+                    <span class="text-white font-bold block">Support Line:</span>
+                    <span>+1 (800) 482-TREE / +91 98765-43210</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQs -->
+            <div class="space-y-4">
+              <h4 class="font-display font-bold text-lg text-white flex items-center gap-2">
+                <i data-lucide="help-circle" class="w-5 h-5 text-emerald-400"></i>
+                <span>Frequently Asked Questions</span>
+              </h4>
+
+              <div class="faq-list space-y-3">
+                <div class="glass-card faq-item p-4 rounded-2xl">
+                  <button class="faq-toggle" onclick="toggleFaq(0)">
+                    <span>How do you verify that planted trees actually survive?</span>
+                    <i data-lucide="chevron-down" class="faq-icon w-4 h-4 text-emerald-400"></i>
+                  </button>
+                  <p class="faq-answer hidden">
+                    Every sapling planted through Arboria is assigned a satellite GPS tag and monitored by local forest rangers. We conduct quarterly drone canopy scans and share survival reports directly with tree adopters.
+                  </p>
+                </div>
+
+                <div class="glass-card faq-item p-4 rounded-2xl">
+                  <button class="faq-toggle" onclick="toggleFaq(1)">
+                    <span>Can organizations host private corporate plantation drives?</span>
+                    <i data-lucide="chevron-down" class="faq-icon w-4 h-4 text-emerald-400"></i>
+                  </button>
+                  <p class="faq-answer hidden">
+                    Yes! We organize turnkey corporate social responsibility (CSR) tree plantation campaigns complete with customized landing pages, team leaderboard metrics, and certified carbon offset documentation.
+                  </p>
+                </div>
+
+                <div class="glass-card faq-item p-4 rounded-2xl">
+                  <button class="faq-toggle" onclick="toggleFaq(2)">
+                    <span>Which tree species are planted during our drives?</span>
+                    <i data-lucide="chevron-down" class="faq-icon w-4 h-4 text-emerald-400"></i>
+                  </button>
+                  <p class="faq-answer hidden">
+                    We exclusively plant native, non-invasive species tailored to the specific ecological soil and rainfall requirements of each region (e.g. English Oak, Banyan, Neem, Teak, and Mangroves).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formspree Contact Form -->
+          <div class="glass-card p-8 sm:p-10 rounded-3xl relative">
+            <h3 class="font-display font-extrabold text-2xl text-white mb-1">Send Us A Message</h3>
+            <p class="font-mono text-xs text-emerald-400 mb-6">Powered by Formspree API</p>
+
+            <form id="contact-form" action="https://formspree.io/f/xeajbqdd" method="POST" class="space-y-5" onsubmit="handleFormspreeContact(event)">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="form-label">Your Name</label>
+                  <input type="text" name="name" required placeholder="Jane Doe" class="form-input">
+                </div>
+                <div>
+                  <label class="form-label">Email Address</label>
+                  <input type="email" name="email" required placeholder="jane@example.com" class="form-input">
+                </div>
+              </div>
+
+              <div>
+                <label class="form-label">Subject / Inquiry Type</label>
+                <select name="subject" class="form-input">
+                  <option value="Volunteering">Volunteering & Plantation Drives</option>
+                  <option value="CSR Partnership">Corporate CSR Partnership</option>
+                  <option value="Tree Adoption">Tree Adoption Inquiry</option>
+                  <option value="Media">Media & Press</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="form-label">Your Message</label>
+                <textarea name="message" required rows="5" placeholder="Tell us how you would like to collaborate..." class="form-input resize-none"></textarea>
+              </div>
+
+              <button type="submit" id="contact-submit-btn" class="btn-primary w-full py-4">
+                <i data-lucide="send" class="w-4 h-4"></i>
+                <span>Submit Message</span>
+              </button>
+            </form>
+
+            <div id="contact-success-msg" class="hidden p-8 text-center space-y-4 bg-forest-950/80 border border-emerald-500/40 rounded-2xl">
+              <div class="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+                <i data-lucide="check-circle" class="w-8 h-8"></i>
+              </div>
+              <h4 class="font-display font-bold text-xl text-white">Message Dispatched!</h4>
+              <p class="text-emerald-100/80 text-sm">
+                Thank you for reaching out. Our reforestation coordinators will respond within 24 hours.
+              </p>
+              <button onclick="resetContactForm()" class="btn-primary px-6 py-2.5 text-xs">Send Another Message</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Interactive Plant A Tree Modal -->
+  <div id="plant-modal" class="modal-backdrop hidden">
+    <div class="glass-card modal-container p-6 sm:p-8 rounded-3xl relative noise-bg">
+      <button class="modal-close" onclick="closePlantModal()">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <form id="plant-form" action="https://formspree.io/f/xeajbqdd" method="POST" onsubmit="handlePlantSubmit(event)" class="space-y-5">
+        <div>
+          <div class="flex items-center gap-2 text-emerald-400 font-mono text-xs uppercase mb-1">
+            <i data-lucide="trees" class="w-4 h-4"></i>
+            <span id="modal-tag">Plant A Seed Initiative</span>
+          </div>
+          <h3 id="modal-title" class="font-display font-extrabold text-2xl text-white">Adopt A Tree Sapling</h3>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <label class="form-label">Your Full Name</label>
+            <input type="text" name="name" required placeholder="e.g. Alex Morgan" class="form-input">
+          </div>
+
+          <div>
+            <label class="form-label">Email Address (For Geo-Tag Certificate)</label>
+            <input type="email" name="email" required placeholder="alex@earth.org" class="form-input">
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="form-label">Number of Saplings</label>
+              <select name="tree_count" id="modal-count-select" class="form-input">
+                <option value="1">1 Sapling (25 kg CO₂/yr)</option>
+                <option value="5">5 Saplings (125 kg CO₂/yr)</option>
+                <option value="10">10 Saplings (250 kg CO₂/yr)</option>
+                <option value="50">50 Saplings (Grove)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="form-label">Planting Zone</label>
+              <select name="location" class="form-input">
+                <option value="Western Ghats">Western Ghats</option>
+                <option value="Amazon Basin">Amazon Basin</option>
+                <option value="Bavarian Reserve">Bavarian Reserve</option>
+                <option value="Urban Micro-Forest">Urban Micro-Forest</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="form-label">Dedication Message (Optional)</label>
+            <textarea name="message" rows="2" placeholder="In honor of future generations..." class="form-input resize-none"></textarea>
+          </div>
+        </div>
+
+        <button type="submit" id="modal-submit-btn" class="btn-primary w-full py-4">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          <span>Confirm & Plant Saplings</span>
+        </button>
+      </form>
+
+      <!-- Modal Success View -->
+      <div id="modal-success-view" class="hidden text-center py-8 space-y-4">
+        <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+          <i data-lucide="check-circle" class="w-10 h-10"></i>
+        </div>
+        <h3 class="font-display font-extrabold text-3xl text-white">SAPLING REGISTERED!</h3>
+        <p class="text-emerald-100/80 text-sm">
+          Thank you! You have successfully planted your tree saplings. 
+          Satellite Geo-location coordinates have been dispatched to your email address!
+        </p>
+        <button onclick="closePlantModal()" class="btn-primary w-full py-3.5 text-xs">Done & Return to Canopy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="section-container space-y-12">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+        <div class="md:col-span-5 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500 text-forest-950 flex items-center justify-center font-bold">
+              <i data-lucide="trees" class="w-5 h-5"></i>
+            </div>
+            <span class="font-display font-extrabold text-2xl text-white">ARBORIA</span>
+          </div>
+          <p class="text-emerald-100/60 text-xs leading-relaxed max-w-sm">
+            Accelerating global ecosystem recovery through community tree planting, native seed preservation, and satellite canopy monitoring.
+          </p>
+        </div>
+
+        <div class="md:col-span-3 space-y-3 font-mono text-xs">
+          <span class="text-white font-bold uppercase block">Navigation</span>
+          <ul class="space-y-2 text-emerald-100/70">
+            <li><a href="#about" class="hover:text-emerald-300">01. About Mission</a></li>
+            <li><a href="#canopy" class="hover:text-emerald-300">02. Species Carousel</a></li>
+            <li><a href="#events" class="hover:text-emerald-300">03. Plantation Drives</a></li>
+            <li><a href="#contact" class="hover:text-emerald-300">04. Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-4 space-y-3 font-mono text-xs">
+          <span class="text-white font-bold uppercase block">Social Network</span>
+          <div class="flex items-center gap-3">
+            <a href="#" class="social-btn"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+            <a href="#" class="social-btn"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+            <a href="#" class="social-btn"><i data-lucide="github" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 ARBORIA TREE PLANTATION INITIATIVE. ALL RIGHTS RESERVED.</p>
+        <p class="flex items-center gap-1">
+          <span>Pure HTML, CSS & JavaScript</span>
+          <i data-lucide="heart" class="w-3.5 h-3.5 text-emerald-400"></i>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Audio element -->
+  <audio id="nature-audio" loop src="https://actions.google.com/sounds/v1/weather/rain_heavy_loud.ogg"></audio>
+
+  <!-- Script File -->
+  <script src="script.js"></script>
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+  </script>
+</body>
 </html>
